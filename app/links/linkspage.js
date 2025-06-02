@@ -55,22 +55,22 @@ const Linkpage = () => {
 
         let r = await fetch("/api/add", requestOptions)
         let result = await r.json()
-     
-        if(result.success){
+
+        if (result.success) {
 
             toast.success(result.message)
             sethandel("")
             setlinks([{ linktext: "", link: "" }])
             setpic("")
             setdsc("")
-             router.push(`/${handel}`)
+            router.push(`/${handel}`)
         }
-        else{
+        else {
             toast.error(result.message)
             sethandel("")
-            
+
         }
-       
+
 
     }
 
@@ -78,37 +78,36 @@ const Linkpage = () => {
     return (
 
         <>
-            <div className='h-screen text-gray-900 bg-[#225ac0] grid grid-cols-2'>
-                <div className='flex flex-col justify-end  ml-[10vw]'>
-            <ToastContainer />
+            <div className='md:h-screen h-[150vh] text-gray-900 bg-[#225ac0] grid grid-cols-1 md:grid-cols-2'>
+                <div className='flex flex-col justify-center mt-35  md:ml-[10vw] mx-5 '>
                     <div><h1 className='font-bold text-4xl  mb-3'>Create Your Link Tree</h1></div>
                     <div>
                         <div className='font-semibold text-2xl'>Step 1: Choose Your Handel</div>
                         <input
                             value={handel || ""}
                             onChange={e => { sethandel(e.target.value) }}
-                            className="px-3 py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                            className="px-3 w-full py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
                             type="text"
                             placeholder="Enter your Profile Name" />
                     </div>
                     <div className=''>
                         <div className='font-semibold text-2xl'>Step 2: Add links</div>
 
-                        <div className="overflow-y-scroll  h-20">
+                        <div className="overflow-y-scroll   h-20">
                             {links && links.map((item, index) => {
                                 return <div key={index} className=''>
 
                                     <input
                                         value={item.linktext}
                                         onChange={e => handelchange(index, "linktext", e.target.value)}
-                                        className="px-3 py-2  focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                                        className="px-3 py-2 w-full  focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
                                         type="text"
                                         placeholder="Enter you link" />
 
                                     <input
                                         value={item.link}
                                         onChange={e => handelchange(index, "link", e.target.value)}
-                                        className="px-3 py-2  focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                                        className="px-3 py-2 w-full focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
                                         type="text"
                                         placeholder="Enter your URL" />
                                 </div>
@@ -145,8 +144,9 @@ const Linkpage = () => {
 
                 </div>
 
-                <div className=''>
-                    <img className='h-[100vh] w-[100vw] object-contain' src="/likn.png" alt="bwd" />
+                <div className='flex justify-center'>
+                    <ToastContainer />
+                    <img className='md:h-[100vh] md:w-[100vw] object-contain' src="/likn.png" alt="bwd" />
                 </div>
 
             </div>
