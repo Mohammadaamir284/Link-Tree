@@ -5,16 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Linkpage = () => {
-
     const searchParams = useSearchParams()
     const router = useRouter()
 
-    const [handel, sethandel] = useState(searchParams.get('handel'))
+    const [handel, sethandel] = useState(searchParams.get('handel') || "")
     const [links, setlinks] = useState([{ linktext: "", link: "" }])
     const [pic, setpic] = useState("")
     const [dsc, setdsc] = useState("")
-    // const [link, setlink] = useState("")
-    // const [linktext, setlinktext] = useState("")
 
     const handelchange = (index, field, value) => {
         setlinks(prev =>
@@ -25,30 +22,25 @@ const Linkpage = () => {
     };
 
     const addlink = () => {
-        setlinks(links.concat([{ linktext: "", link: "" }]))
+        setlinks([...links, { linktext: "", link: "" }])
     }
-
-
 
     const submitlinks = async () => {
         if (!handel.trim() || !dsc.trim() || links.some(link => !link.link.trim() || !link.linktext.trim())) {
-            toast.error("Error")
+            toast.error("Please fill all fields properly")
             return;
         }
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "handel": handel,
-            "links": links,
-            "dsc": dsc,
-            "pic": pic
-
+            handel,
+            links,
+            dsc,
+            pic
         });
 
         const requestOptions = {
             method: "POST",
-            headers: myHeaders,
+            headers: { "Content-Type": "application/json" },
             body: raw,
             redirect: "follow"
         };
@@ -57,99 +49,100 @@ const Linkpage = () => {
         let result = await r.json()
 
         if (result.success) {
-
             toast.success(result.message)
             sethandel("")
             setlinks([{ linktext: "", link: "" }])
             setpic("")
             setdsc("")
             router.push(`/${handel.toLowerCase()}`)
-
-        }
-        else {
+        } else {
             toast.error(result.message)
             sethandel("")
-
         }
-
-
     }
 
-
     return (
-
         <>
-            <div className='md:h-screen h-[150vh] text-gray-900 bg-[#225ac0] grid grid-cols-1 md:grid-cols-2'>
-                <div className='flex flex-col justify-center mt-35  md:ml-[10vw] mx-5 '>
-                    <div><h1 className='font-bold text-4xl  mb-3'>Create Your Link Tree</h1></div>
-                    <div>
-                        <div className='font-semibold text-2xl'>Step 1: Choose Your Handel</div>
+            <div className='min-h-screen text-gray-900 bg-[#225ac0] grid grid-cols-1 md:grid-cols-2'>
+                {/* Left Form Section */}
+                <div className='flex flex-col justify-center md:mt-0 mt-16 md:ml-[8vw] px-4 py-6'>
+                    <h1 className='font-bold text-4xl mb-6 text-white'>Create Your Link Tree</h1>
+
+                    {/* Step 1 */}
+                    <div className='mb-6'>
+                        <div className='font-semibold text-xl mb-2 text-white'>Step 1: Choose Your Handle</div>
                         <input
-                            value={handel || ""}
-                            onChange={e => { sethandel(e.target.value.toLowerCase()) }}
-                            className="px-3 w-full py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                            value={handel}
+                            onChange={e => sethandel(e.target.value.toLowerCase())}
+                            className="px-4 py-2 w-full bg-white rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-400"
                             type="text"
-                            placeholder="Enter your Profile Name" />
+                            placeholder="Enter your Profile Name"
+                        />
                     </div>
-                    <div className=''>
-                        <div className='font-semibold text-2xl'>Step 2: Add links</div>
 
-                        <div className="overflow-y-scroll   h-20">
-                            {links && links.map((item, index) => {
-                                return <div key={index} className=''>
-
+                    {/* Step 2 */}
+                    <div className='mb-6'>
+                        <div className='font-semibold text-xl mb-2 text-white'>Step 2: Add Links</div>
+                        <div className="space-y-3 max-h-[180px] overflow-y-auto scrollbar-hide pr-1">
+                            {links.map((item, index) => (
+                                <div key={index}>
                                     <input
                                         value={item.linktext}
                                         onChange={e => handelchange(index, "linktext", e.target.value)}
-                                        className="px-3 py-2 w-full  focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                                        className="px-4 py-2 w-full bg-white rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2"
                                         type="text"
-                                        placeholder="Enter you link" />
-
+                                        placeholder="Enter link name"
+                                    />
                                     <input
                                         value={item.link}
                                         onChange={e => handelchange(index, "link", e.target.value)}
-                                        className="px-3 py-2 w-full focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
+                                        className="px-4 py-2 w-full bg-white rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-400"
                                         type="text"
-                                        placeholder="Enter your URL" />
+                                        placeholder="Enter URL"
+                                    />
                                 </div>
-
-                            })}
+                            ))}
                         </div>
-
                         <button
-                            onClick={() => addlink()}
-                            className='bg-slate-900 text-white text-[16px] cursor-pointer px-3 py-2 mt-2.5 mb-3.5  rounded-full w-fit font-semibold'>+ Add</button>
+                            onClick={addlink}
+                            className='mt-3 px-4 py-2 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition'
+                        >
+                            + Add Link
+                        </button>
                     </div>
+
+                    {/* Step 3 */}
                     <div>
-                        <div className='font-semibold text-2xl'>Step 3: Choose Profile pic</div>
-                        <div className='flex flex-col'>
-                            <input
-                                value={dsc}
-                                onChange={e => { setdsc(e.target.value) }}
-                                className="px-3 py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
-                                type="text"
-                                placeholder="Enter Your Bio" />
-
-                            <input
-                                value={pic}
-                                onChange={e => { setpic(e.target.value) }}
-                                className="px-3 py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
-                                type="text"
-                                placeholder="Profile pic" />
-                            <button
-                                onClick={submitlinks}
-                                className='bg-slate-900 text-white text-[16px] cursor-pointer px-3 py-2 mt-2.5 mb-3.5  rounded-full w-fit font-semibold'>Uplode</button>
-                        </div>
-
+                        <div className='font-semibold text-xl mb-2 text-white'>Step 3: Profile Pic & Bio</div>
+                        <input
+                            value={dsc}
+                            onChange={e => setdsc(e.target.value)}
+                            className="px-4 py-2 w-full bg-white rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3"
+                            type="text"
+                            placeholder="Enter Your Bio"
+                        />
+                        <input
+                            value={pic}
+                            onChange={e => setpic(e.target.value)}
+                            className="px-4 py-2 w-full bg-white rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+                            type="text"
+                            placeholder="Profile Picture URL"
+                        />
+                        <button
+                            onClick={submitlinks}
+                            className='px-5 py-2 bg-slate-900 text-white rounded-full font-semibold hover:bg-slate-800 transition'
+                        >
+                            Upload
+                        </button>
                     </div>
-
                 </div>
 
-                <div className='flex justify-center'>
-                    <ToastContainer />
-                    <img className='md:h-[100vh] md:w-[100vw] object-contain' src="/likn.png" alt="bwd" />
+                {/* Right Image Section */}
+                <div className='hidden md:flex items-center justify-center p-4'>
+                    <img className='max-w-full h-auto object-contain' src="/likn.png" alt="illustration" />
                 </div>
 
+                <ToastContainer />
             </div>
         </>
     )

@@ -82,15 +82,15 @@ export default function Home() {
 
   return (
     <>
-      <section className="md:min-h-[100vh] h-[120vh] w-[100vw] grid grid-cols-1 md:grid-cols-2   bg-[#254f1a]">
-        <div className="flex flex-col justify-end md:mb-10  md:ml-[10vw] m-4  gap-3">
+      <section className="md:min-h-[100vh] h-[120vh] w-[100vw] grid grid-cols-1 md:grid-cols-2 bg-[#254f1a]">
+        <div className="flex flex-col justify-end md:mb-10 md:ml-[10vw] m-4 gap-3">
           <div className=' '>
             <p className="text-yellow-300 md:text-7xl text-[37px] font-bold">Everything you </p>
             <p className="text-yellow-300 md:text-7xl text-[37px] font-bold">are. In one, </p>
             <p className="text-yellow-300 md:text-7xl text-[37px] font-bold">simple link in </p>
             <p className="text-yellow-300 md:text-7xl text-[37px] font-bold">bio.</p>
           </div>
-          <p className="text-white break-words md:text-[20px] text-[14px]  font-bold">Join 70M+ people using Linktree for their link in bio. One link to help you share everything you create, curate and sell from your Instagram, TikTok, Twitter, YouTube and other social media profiles.</p>
+          <p className="text-white break-words md:text-[20px] text-[14px] font-bold">Join 70M+ people using Linktree for their link in bio. One link to help you share everything you create, curate and sell from your Instagram, TikTok, Twitter, YouTube and other social media profiles.</p>
           <div className='flex flex-col gap-2'>
             <input
               value={text}
@@ -102,21 +102,21 @@ export default function Home() {
               className='bg-[#e9c0e9] text-[16px] cursor-pointer p-3 rounded-full w-fit font-semibold'>Claim Your LinkTree</button>
           </div>
         </div>
-        <div className="flex items-center  justify-end md:mb-14 md:mr-[10vw]">
+        <div className="flex items-center justify-end md:mb-14 md:mr-[10vw]">
           <div>
-            <img className="md:w-[50vw]  " src="/home.png" alt="" />
+            <img className="md:w-[50vw]" src="/home.png" alt="" />
           </div>
         </div>
       </section>
-      <section className="min-h-[100vh] grid grid-cols-1  md:grid-cols-2 bg-[#e9c0e9]">
+      <section className="min-h-[100vh] w-[100vw] grid grid-cols-1 md:grid-cols-2 bg-[#e9c0e9]">
 
-        <div className="relative   w-full h-64 md:h-96 ">
+        <div className="relative w-full h-64 md:h-96 ">
           {images.map((image, index) => (
             <img
               key={index}
               src={image}
               alt={`Slide ${index}`}
-              className={`absolute   md:left-9 pl-9  top-10 md:top-24 rounded-xl md:w-[35vw]  md:h-full w-full object-cover transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'
+              className={`absolute md:left-9 pl-9 top-10 md:top-24 rounded-xl md:w-[35vw] md:h-full w-full object-cover transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'
                 }`}
             />
           ))}
@@ -135,14 +135,11 @@ export default function Home() {
         <ToastContainer />
       </section>
 
-      <section className="min-h-[115vh] bg-[#780016]">
+      <section className="min-h-[115vh] w-[100vw] bg-[#780016]">
 
         <div className='px-5 py-6'>
 
           <div className="text-2xl text-white font-bold pb-3">Search Your LinkTree Profiles</div>
-
-
-
 
         </div>
 
@@ -163,17 +160,11 @@ export default function Home() {
                   <Link href={`/${item.handel.toLowerCase()}`}>   <li className=' my-2 '>
                     {item.handel.toUpperCase()}
                   </li></Link>
-                  <div
-                  
-
-                  className="relative inline-block">
-                  
-                   <MoreVertical
-                    onClick={() => setopen(open === index ? null : index)}
+                  <div className="relative inline-block">
+                    <MoreVertical
+                      onClick={() => setopen(open === index ? null : index)}
                       className="w-6 h-6 cursor-pointer"
                     />
-                    {/* Three dots icon */}
-                   
 
                     <div className={`absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md transition-all duration-300 z-10 
                       ${open === index ? "" : "hidden"}`}>
@@ -197,11 +188,9 @@ export default function Home() {
           </ul>
         </div>
 
-
-
       </section>
 
 
     </>
   );
-}
+} 
