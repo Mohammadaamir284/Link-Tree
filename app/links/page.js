@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const page = () => {
+const Linkpage = () => {
 
     const searchParams = useSearchParams()
 
@@ -151,4 +151,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Linkpage
