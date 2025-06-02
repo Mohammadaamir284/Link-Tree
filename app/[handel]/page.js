@@ -64,7 +64,7 @@ export default function Page(props) {
                                 }}
                             />
                         </div>
-                        <div className="text-2xl font-semibold">@_{link2.handel}</div>
+                        <div className="text-2xl font-semibold">{link2.handel.toUpperCase()}</div>
                         <div className="px-1 text-center text-white  w-[23vw] h-fit overflow-y-scroll scrollbar-hide">
                             {link2.dsc}
                         </div>

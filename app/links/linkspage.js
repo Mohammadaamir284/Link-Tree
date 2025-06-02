@@ -86,7 +86,7 @@ const Linkpage = () => {
                         <div className='font-semibold text-2xl'>Step 1: Choose Your Handel</div>
                         <input
                             value={handel || ""}
-                            onChange={e => { sethandel(e.target.value) }}
+                            onChange={e => { sethandel(e.target.value.toLowerCase()) }}
                             className="px-3 w-full py-2 focus:outline-[#225ac0] bg-white rounded-full my-2.5 mr-2 border"
                             type="text"
                             placeholder="Enter your Profile Name" />

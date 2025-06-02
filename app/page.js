@@ -161,7 +161,7 @@ export default function Home() {
               filtered.map((item, index) => (
                 <div key={index} className=' flex justify-between items-center p-2 bg-gray-200 my-2 rounded '>
                   <Link href={`/${item.handel.toLowerCase()}`}>   <li className=' my-2 '>
-                    @_{item.handel}
+                    {item.handel.toUpperCase()}
                   </li></Link>
                   <div
                   
