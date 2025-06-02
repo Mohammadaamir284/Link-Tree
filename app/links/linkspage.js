@@ -63,7 +63,8 @@ const Linkpage = () => {
             setlinks([{ linktext: "", link: "" }])
             setpic("")
             setdsc("")
-            router.push(`/${handel}`)
+            router.push(`/${handel.toLowerCase()}`)
+
         }
         else {
             toast.error(result.message)
