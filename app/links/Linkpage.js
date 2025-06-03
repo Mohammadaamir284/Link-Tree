@@ -2,11 +2,14 @@
 import { useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { ToastContainer, toast } from 'react-toastify';
+import { useUser } from "@clerk/nextjs";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Linkpage = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
+
+    const { user, isSignedIn } = useUser()
 
     const [handel, sethandel] = useState(searchParams.get('handel') || "")
     const [links, setlinks] = useState([{ linktext: "", link: "" }])
@@ -26,40 +29,54 @@ const Linkpage = () => {
     }
 
     const submitlinks = async () => {
-        if (!handel.trim() || !dsc.trim() || links.some(link => !link.link.trim() || !link.linktext.trim())) {
-            toast.error("Please fill all fields properly")
+        if (!isSignedIn) {
+            toast.error("LogIn please");
             return;
         }
 
-        const raw = JSON.stringify({
+        if (
+            !handel.trim() ||
+            links.some((link) => !link.link.trim() || !link.linktext.trim())
+        ) {
+            toast.error("Please fill all fields properly");
+            return;
+        }
+
+        const payload = {
             handel,
             links,
             dsc,
-            pic
-        });
+            pic,
+            userId: user?.id,
+        };
 
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: raw,
-            redirect: "follow"
+            body: JSON.stringify(payload), // ✅ only one stringify
         };
 
-        let r = await fetch("/api/add", requestOptions)
-        let result = await r.json()
+        try {
+            const res = await fetch("/api/add", requestOptions);
+            const result = await res.json(); // 🔒 may still want try/catch here
 
-        if (result.success) {
-            toast.success(result.message)
-            sethandel("")
-            setlinks([{ linktext: "", link: "" }])
-            setpic("")
-            setdsc("")
-            router.push(`/${handel.toLowerCase()}`)
-        } else {
-            toast.error(result.message)
-            sethandel("")
+            if (result.success) {
+                toast.success(result.message);
+                sethandel("");
+                setlinks([{ linktext: "", link: "" }]);
+                setpic("");
+                setdsc("");
+                router.push(`/${handel.toLowerCase()}`);
+            } else {
+                toast.error(result.message);
+                sethandel("");
+            }
+        } catch (err) {
+            toast.error("Something went wrong!");
+            console.error("submitlinks error:", err);
         }
-    }
+    };
+
 
     return (
         <>

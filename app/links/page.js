@@ -1,5 +1,9 @@
+"use client"
 import { Suspense } from 'react';
-import Linkpage from './linkspage';
+
+import dynamic from 'next/dynamic';
+
+const Linkpage = dynamic(() => import('./Linkpage'), { ssr: false });
 
 export default function Page() {
   return (
