@@ -33,10 +33,7 @@ const Profile = ({ params }) => {
 
     if (!userId) return notFound();
 
-    function isValidImageSrc(src) {
-        return typeof src === 'string' && (src.startsWith('/') || src.startsWith('http'));
-    }
-    const safeSrc = isValidImageSrc(link2.pic) ? link2.pic : "/default-user.svg";
+    
 
 
     return (
@@ -69,12 +66,11 @@ const Profile = ({ params }) => {
                                 {/* Profile Info */}
                                 <div className="flex flex-col items-center mt-2 space-y-3">
                                     <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center border-2">
-                                        <Image
-                                            src={safeSrc}
+                                        <img
+                                            src={(link2.pic) ? link2.pic : "/default-user.svg"}
                                             alt="User"
                                             className="w-24 h-24 rounded-full object-cover bg-amber-800"
-                                            width={96} // Tailwind's w-24 = 96px
-                                            height={96}
+                                            
                                         />
                                     </div>
                                     <div className="text-xl md:text-2xl font-semibold text-center capitalize"> {link2?.handel}</div>
