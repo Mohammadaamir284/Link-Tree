@@ -69,7 +69,7 @@ const Profile = ({ params }) => {
                                         <img
                                             src={(link2.pic) ? link2.pic : "/default-user.svg"}
                                             alt="User"
-                                            className="w-24 h-24 rounded-full object-cover bg-amber-800"
+                                            className="w-24 h-24 rounded-full object-cover   bg-amber-800"
                                             
                                         />
                                     </div>
