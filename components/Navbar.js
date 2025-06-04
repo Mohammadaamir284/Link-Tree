@@ -7,7 +7,7 @@ import { useClerk, UserButton } from '@clerk/nextjs';
 
 const Navbar = () => {
     const pathname = usePathname();
-   
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const { openSignIn, isSignedIn } = useClerk()
@@ -16,52 +16,54 @@ const Navbar = () => {
 
     return (
         <>
-         
-                <nav className="md:w-[80vw] w-[90vw] rounded-full flex items-center justify-between md:mx-[10vw] mx-[5vw] fixed z-50 top-10 bg-white p-4 shadow-md">
-                    {/* Left Section */}
+
+            <nav className="md:w-[80vw] w-[90vw] rounded-full flex items-center justify-between md:mx-[10vw] mx-[5vw] fixed z-50 top-10 bg-white p-4 shadow-md">
+                {/* Left Section */}
+                <Link href={"/"} >
                     <div className="flex items-center gap-5">
-                      
-                            <div className="text-[#254f1a] flex items-center">
-                                <div className="font-bold text-2xl">LinkTree</div>
-                                <img className="text-[#254f1a] w-7 ml-2" src="/logo.svg" alt="logo" />
-                            </div>
-                       
+
+                        <div className="text-[#254f1a] flex items-center">
+                            <div className="font-bold text-2xl">LinkTree</div>
+                            <img className="text-[#254f1a] w-7 ml-2" src="/logo.svg" alt="logo" />
+                        </div>
+
                     </div>
+                </Link>
 
-                    {/* Desktop Links */}
-                    <ul className="hidden md:flex items-center gap-5">
-                        {['Product', 'Template', 'Marketplace', 'Learn', 'Price'].map((item, index) => (
-                            <li key={index} className="hover:bg-gray-200 text-[16px] font-semibold p-3 rounded-lg w-fit cursor-pointer">
-                                {item}
-                            </li>
-                        ))}
-                    </ul>
+                {/* Desktop Links */}
+                <ul className="hidden md:flex items-center gap-5">
+                    {['Product', 'Template', 'Marketplace', 'Learn', 'Price'].map((item, index) => (
+                        <li key={index} className="hover:bg-gray-200 text-[16px] font-semibold p-3 rounded-lg w-fit cursor-pointer">
+                            {item}
+                        </li>
+                    ))}
+                </ul>
 
-                    {/* Mobile Hamburger */}
-                    <div className="md:hidden flex items-center">
-                        <button onClick={toggleMobileMenu}>
-                            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                        </button>
-                    </div>
+                {/* Mobile Hamburger */}
+                <div className="md:hidden flex items-center">
+                    <button onClick={toggleMobileMenu}>
+                        {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                    </button>
+                </div>
 
-                    {/* Right Section */}
-                    <div className="hidden md:flex items-center gap-2">
-                        {isSignedIn ?
+                {/* Right Section */}
+                <div className="hidden md:flex items-center gap-2">
+                    {isSignedIn ?
 
-                            <UserButton />
+                        <UserButton />
 
-                            :
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={openSignIn}
-                                    className="bg-gray-200 text-[16px] p-3 rounded-lg w-fit font-bold">Log in
-                                </button>
-                            </div>
-                        }
-                    </div>
+                        :
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={openSignIn}
+                                className="bg-gray-200 text-[16px] p-3 rounded-lg w-fit font-bold">Log in
+                            </button>
+                        </div>
+                    }
+                </div>
 
-                </nav >
-           
+            </nav >
+
             {/* Mobile Menu Dropdown */}
             {
                 isMobileMenuOpen && (
