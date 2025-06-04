@@ -5,38 +5,45 @@ import { useState, useEffect, use } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import "./Loading.css"
 
 const Profile = ({ params }) => {
 
-    const [link2, setlink] = useState([]);
+    const handel = params.handel;
+    const [link2, setlink] = useState(undefined);
+    const [checking, setChecking] = useState(true);
     const { user, isLoaded } = useUser();
     const userId = user?.id
 
 
 
     useEffect(() => {
-        if (!userId) return;
+        if (!isLoaded || !userId) return;
+
         const fetchData = async () => {
             const res = await fetch(`/api/add/?userId=${userId}`);
             const data = await res.json();
-            const user = data.find(item => item.handel === params.handel)
 
-            if (!user) {
-                setlink("notfound");
-            } else {
-                setlink(user);
-            }
+            const foundUser = data.find(
+                (item) => decodeURIComponent(item.handel) === decodeURIComponent(params.handel)
+            );
+
+
+            setlink(foundUser || null);
+            setChecking(false);
+
         };
 
-        fetchData()
-    }, [params.handel, userId]);
-
-    if (!userId) return notFound();
-
-    
+        fetchData();
+    }, [params.handel, userId, isLoaded]);
 
 
-    return (
+    if (!checking && link2 === null) {
+        notFound();
+    }
+
+    return (<>
+
         <div className="bg-[#1e2330] min-h-screen flex flex-col">
 
             {/* Nav */}
@@ -56,6 +63,7 @@ const Profile = ({ params }) => {
                 </nav>
             </Link>
 
+
             {/* Main Card Section */}
             <div className="flex-1 flex justify-center items-end p-2 pt-16">
                 <div className="w-full max-w-md h-[90vh] rounded-t-2xl bg-black p-4 flex justify-center items-center">
@@ -67,10 +75,13 @@ const Profile = ({ params }) => {
                                 <div className="flex flex-col items-center mt-2 space-y-3">
                                     <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center border-2">
                                         <img
-                                            src={(link2.pic) ? link2.pic : "/default-user.svg"}
+                                            src={link2?.pic?.trim() ? link2.pic : "/default-user.svg"}
                                             alt="User"
                                             className="w-24 h-24 rounded-full object-cover   bg-amber-800"
-                                            
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null; // prevent infinite loop
+                                                e.currentTarget.src = "/default-user.svg";
+                                            }}
                                         />
                                     </div>
                                     <div className="text-xl md:text-2xl font-semibold text-center capitalize"> {link2?.handel}</div>
@@ -78,27 +89,31 @@ const Profile = ({ params }) => {
                                         {link2.dsc}
                                     </div>
                                 </div>
-
-                                {/* Links */}
-                                <div className="mt-4 w-full flex-1 overflow-y-auto scrollbar-hide">
-                                    {link2?.links?.map((item, index) => (
-                                        <Link key={index} href={item.link} target="_blank">
-                                            <button className="w-full bg-white text-black text-base md:text-lg font-medium rounded-lg py-2 my-2 shadow-md hover:bg-gray-200 transition">
-                                                {item.linktext}
-                                            </button>
-                                        </Link>
-                                    ))}
-                                </div>
                             </>
                         ) : (
-                            <div className="text-white text-lg">Loading...</div>
+                            <div className="text-2xl font-semibold text-white">Loading...</div>
+
                         )}
+
+                        {/* Links */}
+                        <div className="mt-4 w-full flex-1 overflow-y-auto scrollbar-hide">
+                            {link2?.links?.map((item, index) => (
+                                <Link key={index} href={item.link} target="_blank">
+                                    <button className="w-full bg-white text-black text-base md:text-lg font-medium rounded-lg py-2 my-2 shadow-md hover:bg-gray-200 transition">
+                                        {item.linktext}
+                                    </button>
+                                </Link>
+                            ))}
+                        </div>
+
 
                     </div>
                 </div>
             </div>
+
         </div>
-    )
+
+    </>)
 }
 
 export default Profile

@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Linkpage = () => {
@@ -80,6 +81,7 @@ const Linkpage = () => {
 
     return (
         <>
+        <Navbar  className="z-50"/>
             <div className='min-h-screen text-gray-900 bg-[#225ac0] grid grid-cols-1 md:grid-cols-2'>
                 {/* Left Form Section */}
                 <div className='flex flex-col justify-center md:mt-0 mt-16 md:ml-[8vw] px-4 py-6'>

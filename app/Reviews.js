@@ -172,7 +172,7 @@ const Reviews = () => {
                         {filtered.length > 0 ? (
                             filtered.map((item, index) => (
                                 <div key={index} className=' flex justify-between items-center p-2 bg-gray-200 my-2 rounded '>
-                                    <Link href={`/${item.handel.toLowerCase()}`}>   <li className=' my-2 capitalize'>
+                                    <Link href={`/${item.handel}`}>   <li className=' my-2 capitalize'>
                                         {item.handel}
                                     </li></Link>
                                     <div className="relative inline-block">

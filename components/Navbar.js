@@ -7,7 +7,7 @@ import { useClerk, UserButton } from '@clerk/nextjs';
 
 const Navbar = () => {
     const pathname = usePathname();
-    const shownav = ['/', '/links'].includes(pathname);
+   
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const { openSignIn, isSignedIn } = useClerk()
@@ -16,16 +16,16 @@ const Navbar = () => {
 
     return (
         <>
-            {shownav && (
+         
                 <nav className="md:w-[80vw] w-[90vw] rounded-full flex items-center justify-between md:mx-[10vw] mx-[5vw] fixed z-50 top-10 bg-white p-4 shadow-md">
                     {/* Left Section */}
                     <div className="flex items-center gap-5">
-                        <Link href={'/'}>
+                      
                             <div className="text-[#254f1a] flex items-center">
                                 <div className="font-bold text-2xl">LinkTree</div>
                                 <img className="text-[#254f1a] w-7 ml-2" src="/logo.svg" alt="logo" />
                             </div>
-                        </Link>
+                       
                     </div>
 
                     {/* Desktop Links */}
@@ -61,8 +61,7 @@ const Navbar = () => {
                     </div>
 
                 </nav >
-            )}
-
+           
             {/* Mobile Menu Dropdown */}
             {
                 isMobileMenuOpen && (
