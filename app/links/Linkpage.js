@@ -58,7 +58,7 @@ const Linkpage = () => {
         };
 
         try {
-            const res = await fetch("/api/add", requestOptions);
+            const res = await fetch("/api/add/add2", requestOptions);
             const result = await res.json(); // 🔒 may still want try/catch here
 
             if (result.success) {

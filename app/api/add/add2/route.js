@@ -39,22 +39,14 @@ export async function GET(req) {
 
 
 export async function DELETE(req) {
-
-
-
   const body = await req.json();
   const { _id } = body
- 
-
   if (!_id || !ObjectId.isValid(_id)) {
     return NextResponse.json(({ success: false, message: "Invalid or missing _id" }))
   }
-
   const client = await clientPromise;
   const db = client.db("linktree");
   const collection = db.collection("links");
   const result = await collection.deleteOne({ _id: new ObjectId(_id) });
- 
-
   return NextResponse.json({ success: true, deletedCount: result.deletedCount });
 }

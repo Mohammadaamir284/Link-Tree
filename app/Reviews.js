@@ -17,25 +17,21 @@ const Reviews = () => {
     const [hovered, setHovered] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0);
     const { user, isSignedIn } = useUser()
-
     const userId = user?.id
     useEffect(() => {
         if (!userId) return;
         const fetchdata = async () => {
-            const fetch_data = await fetch(`/api/add?userId=${userId}`)
+            const fetch_data = await fetch(`/api/add/add2?userId=${userId}`)
             const data = await fetch_data.json()
             const arrayData = Array.isArray(data) ? data : data.data || [];
             setshow(arrayData);
-           
         }
         fetchdata()
     }, [userId])
 
-
     const filtered = show.filter((item) =>
         item.handel?.toLowerCase().includes(search.toLowerCase())
     );
-
 
     const del = async (item) => {
         let c = confirm("Do You Really Want To Delete This?")
@@ -49,32 +45,26 @@ const Reviews = () => {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
-
             });
-            const res1 = await fetch("/api/add/", {
+            const res1 = await fetch("/api/add/add2", {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ _id: item._id })
             });
             if (!res1.ok) throw new Error('Delete failed');
-
-
             setshow(show => show.filter(show => show._id !== item._id))
         }
     }
 
-
     const createhandel = () => {
         router.push(`/links?handel=${text}`)
     }
-
     const images = [
         '/download.png',
         '/download (2).png',
         '/download (3).png',
         '/download (1).png',
     ];
-
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) =>
@@ -101,10 +91,10 @@ const Reviews = () => {
                             value={text}
                             onChange={(e) => settext(e.target.value)}
                             className="p-3 bg-white md:w-50 w-full rounded-lg mr-2 border" type="text" placeholder="linktr.ee/" />
-
                         <button
                             onClick={() => createhandel()}
-                            className='bg-[#e9c0e9] text-[16px] cursor-pointer p-3 rounded-full w-fit font-semibold'>Claim Your LinkTree</button>
+                            className='bg-[#e9c0e9] text-[16px] cursor-pointer p-3 rounded-full w-fit font-semibold'>Claim Your LinkTree
+                        </button>
                     </div>
                 </div>
                 <div className="flex items-center justify-end md:mb-14 md:mr-[10vw]">
@@ -121,7 +111,6 @@ const Reviews = () => {
                 </div>
             </section>
             <section className="min-h-[100vh] w-[100vw] grid grid-cols-1 md:grid-cols-2 bg-[#e9c0e9]">
-
                 <div className="relative w-full h-64 md:h-96 ">
                     {images.map((image, index) => (
                         <Image
@@ -151,23 +140,18 @@ const Reviews = () => {
             </section>
 
             <section className="min-h-[115vh] w-[100vw] bg-[#780016]">
-
                 <div className='px-5 py-6'>
-
                     <div className="text-2xl text-white font-bold pb-3">Search Your LinkTree Profiles</div>
-
                 </div>
 
                 <div className="p-6">
                     <input
-
                         type="text"
                         placeholder="Search Your LinkTree Profiles"
                         value={search}
                         onChange={(e) => setsearch(e.target.value)}
                         className="p-2 border rounded bg-emerald-200 mb-4 w-full"
                     />
-
                     <ul className=' h-[70vh] overflow-y-scroll scrollbar-hide'>
                         {filtered.length > 0 ? (
                             filtered.map((item, index) => (
@@ -180,7 +164,6 @@ const Reviews = () => {
                                             onClick={() => setopen(open === index ? null : index)}
                                             className="w-6 h-6 cursor-pointer"
                                         />
-
                                         <div className={`absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md transition-all duration-300 z-10 
                       ${open === index ? "" : "hidden"}`}>
                                             <ul className="text-sm text-gray-700">
@@ -192,8 +175,6 @@ const Reviews = () => {
                                                 </li>
                                             </ul>
                                         </div>
-
-
                                     </div>
                                 </div>
                             ))
@@ -202,10 +183,7 @@ const Reviews = () => {
                         )}
                     </ul>
                 </div>
-
             </section>
-
-
         </>
     );
 }

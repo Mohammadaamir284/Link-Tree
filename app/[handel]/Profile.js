@@ -18,24 +18,20 @@ const Profile = ({ params }) => {
 
 
     useEffect(() => {
-        if (!isLoaded || !userId) return;
-
         const fetchData = async () => {
-            const res = await fetch(`/api/add/?userId=${userId}`);
+            const res = await fetch(`/api/add/handel?handel=${params.handel}`);
             const data = await res.json();
 
-            const foundUser = data.find(
-                (item) => decodeURIComponent(item.handel) === decodeURIComponent(params.handel)
-            );
-
-
-            setlink(foundUser || null);
+            if (data && data.length > 0) {
+                setlink(data[0]);
+            } else {
+                setlink(null); // not found
+            }
             setChecking(false);
-
         };
 
         fetchData();
-    }, [params.handel, userId, isLoaded]);
+    }, [params.handel]);
 
 
     if (!checking && link2 === null) {
